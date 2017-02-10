@@ -1,3 +1,19 @@
-# npy-streaming-writer #
+npywriter
+===============================
 
-A Python library for writing arbitrarily large numpy files without having to hold all data in memory.
+Overview
+--------
+
+A library for writing arbitrarily large .npy files incrementally.
+
+Example Usage:
+--------------
+
+    writer = NpyWriter('bigdata.npy')
+    writer.append(np.array([1,2,3]))
+    writer.append(np.array([4,5,6]))
+    writer.close()
+
+    np.load('bigdata.npy')
+    > array([[1, 2, 3],
+    >        [4, 5, 6]])
