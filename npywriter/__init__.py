@@ -42,7 +42,7 @@ class NpyWriter:
         self.output_fpath = output_fpath
         self.output_file = open(self.output_fpath, 'wb')
         for _ in range(128):
-            self.output_file.write(" ")
+            self.output_file.write(c_uint8(10))
         self.item_shape = None
         self.item_dtype = None
         self.n_items = 0
@@ -75,7 +75,7 @@ class NpyWriter:
         # write header
         self.output_file.seek(0)
         self.output_file.write(c_uint8(147))
-        self.output_file.write('NUMPY')
+        self.output_file.write(bytes('NUMPY', 'utf-8'))
         self.output_file.write(c_uint8(1))
         self.output_file.write(c_uint8(0))
         self.output_file.write(c_uint8(118))   # uint16(118) in little endian
@@ -83,5 +83,5 @@ class NpyWriter:
         total_shape = tuple([self.n_items] + list(self.item_shape))
         header = "{'descr': '%s', 'fortran_order': False, 'shape': %s}" % (
             self.item_dtype.descr[0][1], str(total_shape))
-        self.output_file.write(header)
+        self.output_file.write(bytes(header, 'utf-8'))
         self.output_file.close()
